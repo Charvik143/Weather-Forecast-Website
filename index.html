@@ -2,218 +2,108 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Weather Forecast App</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      font-family: 'Poppins', sans-serif;
-      color: #fff;
-      text-align: center;
-      padding: 20px;
-      overflow: hidden;
-      background-size: cover;
-      background-position: center;
-    }
-
-    /* Animated Gradient Background */
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: linear-gradient(-45deg, #ff6ec4, #7873f5, #47c9e5, #4facfe);
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
-      z-index: -3;
-    }
-
-    @keyframes gradientBG {
-      0% {background-position: 0% 50%;}
-      50% {background-position: 100% 50%;}
-      100% {background-position: 0% 50%;}
-    }
-
-    /* Floating Particles */
-    .particles {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      top: 0; left: 0;
-      z-index: -2;
-    }
-
-    .particles span {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      background: rgba(255,255,255,0.5);
-      border-radius: 50%;
-      animation: float 10s linear infinite;
-    }
-
-    @keyframes float {
-      0% {
-        transform: translateY(100vh) scale(0.5);
-        opacity: 0;
-      }
-      50% {
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-10vh) scale(1);
-        opacity: 0;
-      }
-    }
-
-    input {
-      padding: 12px;
-      margin: 15px;
-      border-radius: 30px;
-      border: none;
-      width: 200px;
-      outline: none;
-    }
-    button {
-      padding: 12px 20px;
-      border: none;
-      border-radius: 30px;
-      background: #00f2fe;
-      color: #000;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 0 20px #00f2fe;
-      transition: 0.3s ease;
-    }
-    button:hover {
-      background: #4facfe;
-      box-shadow: 0 0 40px #4facfe;
-      transform: scale(1.1);
-    }
-    .forecast {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-top: 20px;
-    }
-    .card {
-      background: rgba(255,255,255,0.2);
-      margin: 15px;
-      padding: 20px;
-      border-radius: 15px;
-      width: 150px;
-      height: 200px;
-      perspective: 1000px;
-      transition: transform 0.8s;
-      transform-style: preserve-3d;
-      box-shadow: 0 0 20px rgba(255,255,255,0.3);
-      position: relative;
-    }
-    .card:hover {
-      transform: rotateY(180deg);
-    }
-    .card-content {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-    }
-    .card-back {
-      transform: rotateY(180deg);
-    }
-    h1 {
-      text-shadow: 0 0 15px #fff;
-      margin-bottom: 20px;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+  <title>Weather Forecast Pro</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-  <h1>🌟 Weather Forecast 🌟</h1>
-  <input type="text" id="cityInput" placeholder="Enter city (e.g. Kakinada)" />
-  <button onclick="getWeather()">Get Forecast</button>
-  <p id="error"></p>
-  <div class="forecast" id="forecast"></div>
+  <!-- Navigation Header -->
+  <nav class="navbar">
+    <div class="nav-content">
+      <div class="logo">
+        <i class="fas fa-cloud-sun"></i>
+        <span>WeatherPro</span>
+      </div>
+      <div class="nav-actions">
+        <button onclick="viewHistory()" class="nav-btn" id="historyBtn">
+          <i class="fas fa-history"></i>
+          <span class="btn-text">History</span>
+        </button>
+        <button onclick="toggleTheme()" class="nav-btn" id="themeBtn">
+          <i class="fas fa-moon"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Container -->
+  <div class="main-container">
+    <!-- Search Section -->
+    <div class="search-section">
+      <h1 class="main-title">
+        <span class="title-text">Discover Weather</span>
+        <span class="title-emoji">🌤️</span>
+      </h1>
+      <p class="subtitle">Get real-time weather updates for any city worldwide</p>
+      
+      <div class="search-box">
+        <div class="input-group">
+          <i class="fas fa-map-marker-alt search-icon"></i>
+          <input 
+            type="text" 
+            id="cityInput" 
+            placeholder="Enter city name..." 
+            autocomplete="off"
+          />
+          <button onclick="getWeather()" class="search-btn" id="searchBtn">
+            <i class="fas fa-search"></i>
+            <span>Search</span>
+          </button>
+        </div>
+        <div class="quick-cities">
+          <span class="quick-label">Quick:</span>
+          <button onclick="quickSearch('Kakinada')" class="quick-city">Kakinada</button>
+          <button onclick="quickSearch('Hyderabad')" class="quick-city">Hyderabad</button>
+          <button onclick="quickSearch('Mumbai')" class="quick-city">Mumbai</button>
+          <button onclick="quickSearch('Delhi')" class="quick-city">Delhi</button>
+        </div>
+      </div>
+      
+      <p id="error" class="error-message"></p>
+    </div>
+    
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="loading-container">
+      <div class="loading-spinner">
+        <i class="fas fa-cloud-sun-rain fa-spin"></i>
+      </div>
+      <p class="loading-text">Fetching weather data...</p>
+    </div>
+
+    <!-- Current Weather Display -->
+    <div class="current-weather-card" id="currentWeather"></div>
+    
+    <!-- Forecast Section -->
+    <div class="forecast-section" id="forecastSection">
+      <h2 class="section-title">
+        <i class="fas fa-calendar-week"></i>
+        5-Day Forecast
+      </h2>
+      <div class="forecast-container" id="forecast"></div>
+    </div>
+  </div>
+
+  <!-- History Modal -->
+  <div id="historyModal" class="modal">
+    <div class="modal-overlay" onclick="closeHistory()"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2><i class="fas fa-history"></i> Search History</h2>
+        <button class="close-btn" onclick="closeHistory()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body" id="historyList"></div>
+    </div>
+  </div>
 
   <!-- Floating particles -->
-  <div class="particles"></div>
+  <div class="particles" id="particles"></div>
 
-  <script>
-    const apiKey = 'f155f877a67d334234b6aecb896fcb48'; // Your API Key
+  <!-- Toast Notification -->
+  <div id="toast" class="toast"></div>
 
-    // Weather backgrounds based on condition
-    const weatherBackgrounds = {
-      Clear: 'url("https://i.ibb.co/F0FSmJD/clear.jpg")',
-      Clouds: 'url("https://i.ibb.co/q7vKXx9/cloudy.jpg")',
-      Rain: 'url("https://i.ibb.co/fHxxpMC/rainy.jpg")',
-      Snow: 'url("https://i.ibb.co/3kH6Wk7/snowy.jpg")',
-      Thunderstorm: 'url("https://i.ibb.co/V9TR7J2/thunder.jpg")',
-      Drizzle: 'url("https://i.ibb.co/fHxxpMC/rainy.jpg")',
-      Mist: 'url("https://i.ibb.co/zH3zHvj/mist.jpg")',
-      Smoke: 'url("https://i.ibb.co/zH3zHvj/mist.jpg")',
-      Haze: 'url("https://i.ibb.co/zH3zHvj/mist.jpg")',
-      Fog: 'url("https://i.ibb.co/zH3zHvj/mist.jpg")'
-    };
-
-    function getWeather() {
-      const city = document.getElementById('cityInput').value;
-      if (!city) {
-        document.getElementById('error').textContent = 'Please enter a city!';
-        return;
-      }
-
-      fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`)
-        .then(res => res.json())
-        .then(data => {
-          if (data.cod !== "200") {
-            document.getElementById('error').textContent = 'City not found!';
-            return;
-          }
-          document.getElementById('error').textContent = '';
-          const forecastEl = document.getElementById('forecast');
-          forecastEl.innerHTML = '';
-
-          // Change Background Based on Weather
-          const mainWeather = data.list[0].weather[0].main;
-          const bg = weatherBackgrounds[mainWeather] || 'url("https://i.ibb.co/F0FSmJD/clear.jpg")';
-          document.body.style.backgroundImage = bg;
-
-          // Forecast Cards
-          for (let i = 0; i < data.list.length; i += 8) {
-            const item = data.list[i];
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.innerHTML = `
-              <div class="card-content">
-                <h4>${item.dt_txt.split(' ')[0]}</h4>
-                <p>${item.weather[0].description}</p>
-                <img src="https://openweathermap.org/img/wn/${item.weather[0].icon}.png" alt="icon">
-                <p>${item.main.temp}°C</p>
-              </div>
-              <div class="card-content card-back">
-                <h4>Details</h4>
-                <p>Humidity: ${item.main.humidity}%</p>
-                <p>Wind: ${item.wind.speed} m/s</p>
-                <p>Pressure: ${item.main.pressure} hPa</p>
-              </div>
-            `;
-            forecastEl.appendChild(card);
-          }
-        })
-        .catch(err => {
-          document.getElementById('error').textContent = 'Error fetching data.';
-        });
-    }
-
-    // Generate floating particles
-    for(let i=0; i<30; i++) {
-      const span = document.createElement('span');
-      span.style.left = Math.random() * window.innerWidth + 'px';
-      span.style.animationDuration = (5 + Math.random() * 10) + 's';
-      span.style.width = span.style.height = (5 + Math.random() * 10) + 'px';
-      document.querySelector('.particles').appendChild(span);
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
