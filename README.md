@@ -241,7 +241,7 @@ This project is open source and available for educational purposes.
 
 ## 👨‍💻 Author
 
-Created with ❤️ for weather enthusiasts
+Vemavarapu Lakshmiprasannakumar
 
 ## 🙏 Acknowledgments
 
@@ -253,3 +253,4 @@ Created with ❤️ for weather enthusiasts
 ---
 
 **Note**: Make sure to keep your API keys secure and never commit them to public repositories!
+
